@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-##holaaaa
+##adiossss
 
 root = tk.Tk()
 root.title("Evolucion Diferencial")
