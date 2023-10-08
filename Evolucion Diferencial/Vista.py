@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-##adiossss
+from Controlador import llamarCreacion, iniciarGeneraciones
 
 root = tk.Tk()
 root.title("Evolucion Diferencial")
@@ -15,8 +15,9 @@ spinbox_label0 = tk.Spinbox(root, values = opcionesPoblacion)
 spinbox_label0.grid(row=0,column=1, padx=10, pady=10)
 
 def crearPoblacion():
-    
-    print("hola")
+    x = spinbox_label0.get()
+    llamarCreacion(x)    
+
     
     button_label0.config(state="disabled")
     button_label1.config(state="active")
@@ -38,7 +39,8 @@ spinbox_label1.grid(row=1,column=1, padx=10, pady=10)
 
 def crearGeneracionesPoblacion():
     
-    print("hola")
+    x = spinbox_label1.get()
+    iniciarGeneraciones(x)  
     
     button_label1.config(state="disabled")
     button_reinicio.config(state="active")
