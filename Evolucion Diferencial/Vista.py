@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+
 from Controlador import llamarCreacion, iniciarGeneraciones
-##holaaaa
 
 root = tk.Tk()
 root.title("Evolucion Diferencial")
