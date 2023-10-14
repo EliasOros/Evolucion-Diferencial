@@ -1,6 +1,5 @@
 
-###############################################################################################
-###############################           ATRIBUTOS          ##################################
+
 import random
 class Modelo:
     
@@ -20,7 +19,8 @@ class Modelo:
     #Metodo llenado de poblacion inicial
 
     def poblacionInicial(self,inicial):
-        global pesoIn
+       
+                
         valorIn = int(inicial)
         
         PI = [ [    [] for _ in range(3)]    for _ in range(valorIn)]
@@ -35,9 +35,9 @@ class Modelo:
         print ("Este es la ponblacion inicial: ",PI)
         for a in PI:
             p = self.peso(a)
-            pesoIn.append(p)
+            self.pesoIn.append(p)
 
-        print ("Este es el peso inicial: ",pesoIn,"\n")
+        print ("Este es el peso inicial: ",self.pesoIn,"\n")
         return PI
 
     #Calculo de Wij = V1 + mu (v2 - v3)
@@ -55,6 +55,7 @@ class Modelo:
         return w
 
     #Metodo para calcular el peso
+   
     def peso(w):
         x = w[0]
         y = w[1]
@@ -67,7 +68,7 @@ class Modelo:
     def minimo(self,w,obj,PI):
         
         pesoGen = self.peso(w)
-        pesoCom = pesoIn[obj]
+        pesoCom = self.pesoIn[obj]
         print("Este es w: ",w)
         print("Esto es el peso inicial: ",pesoCom)
         print("Esto es el peso a comparar: ",pesoGen)
@@ -85,13 +86,13 @@ class Modelo:
 
     def maximo (self,w,obj,PI):
         pesoGen = self.peso(w)
-        pesoCom = pesoIn[obj]
+        pesoCom = self.pesoIn[obj]
         print("Este es w: ",w)
         print("Esto es el peso inicial: ",pesoCom)
         print("Esto es el peso a comparar: ",pesoGen)
         print("El objetivo: ", obj,"\n")
         if(pesoGen > pesoCom):
-            pesoIn[obj] = pesoGen
+            self.pesoIn[obj] = pesoGen
             self.nueva_gen.append(w)
             print("Cambiamos por w \n")
         else:
