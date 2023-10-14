@@ -3,17 +3,15 @@ from Modelo import poblacionInicial, poblacionGeneracion
 ##from VentanaEmergente import imprimir
 import Modelo
 
+import VentanaEmergente as vE
+
 
 PI = []
+
 def llamarCreacion(inicial):
     global PI
     PI = poblacionInicial(inicial)
     
-
-
-
-
-
 def iniciarGeneraciones(gen):
     valorgen = int(gen)
     for i in range(valorgen):
