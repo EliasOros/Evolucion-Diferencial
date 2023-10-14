@@ -13,6 +13,8 @@ class Controlador:
     def __init__(self,modelo,vista):
         self.modelo = modelo
         self.vista = vista
+        self.PI = None
+        
         
 
     def iniciar(self):
@@ -22,11 +24,19 @@ class Controlador:
         self.iniciarGeneraciones()
         
     def llamarCreacion(self):
-        PI = self.modelo.poblacionInicial(self.vista.controlador_crear_poblacion())
-        NPI = ''.join(str(x) for x in PI)
-        print(PI)
-        print(NPI)
-        return NPI
+        
+        if self.PI is None:
+                  
+            self.PI = self.modelo.poblacionInicial(self.vista.controlador_crear_poblacion())
+
+        NPI = ''.join(str(x) for x in self.PI)
+
+        return self.PI
+    
+        #print(PI)
+        #print(NPI)
+        
+        
 
       
         

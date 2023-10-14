@@ -8,13 +8,25 @@ class Modelo:
     nueva_gen = []
 
     #random
-    def generarRandom(PI, obj):
+    def generarRandom(self,PI, obj):
         nlista = []
         tamano=len(PI)
         for i in range(tamano):
             if i != obj:
                 nlista.append(PI[i])
         return nlista
+
+    #Metodo para calcular el peso
+   
+    def peso(self,w):
+        
+        x = w[0]
+        y = w[1]
+        z = w[2]
+        
+        p = pow(x,2) + pow(y,3) + pow(z,4)
+        
+        return p
 
     #Metodo llenado de poblacion inicial
 
@@ -33,15 +45,19 @@ class Modelo:
                 PI[i][j]= val
         
         print ("Este es la ponblacion inicial: ",PI)
+        
         for a in PI:
+            
             p = self.peso(a)
+            
             self.pesoIn.append(p)
 
         print ("Este es el peso inicial: ",self.pesoIn,"\n")
+        
         return PI
 
     #Calculo de Wij = V1 + mu (v2 - v3)
-    def calculoWij(list):
+    def calculoWij(self,list):
         w=[]
         op=[]
         
@@ -54,15 +70,7 @@ class Modelo:
             op=[]
         return w
 
-    #Metodo para calcular el peso
-   
-    def peso(w):
-        x = w[0]
-        y = w[1]
-        z = w[2]
-        
-        p = pow(x,2) + pow(y,3) + pow(z,4)
-        return p
+    
         
     #Metodo para calcular si es minimo
     def minimo(self,w,obj,PI):
@@ -74,7 +82,7 @@ class Modelo:
         print("Esto es el peso a comparar: ",pesoGen)
         print("El objetivo: ", obj,"\n")
         if(pesoGen < pesoCom):
-            pesoIn[obj] = pesoGen
+            self.pesoIn[obj] = pesoGen
             self.nueva_gen.append(w)
             print("Cambiamos por w \n")
         else:
@@ -116,7 +124,7 @@ class Modelo:
         self.maximo(w,obj,PI)
         
 
-    def calculoWij(list):
+    def calculoWij(self,list):
         w=[]
         op=[]
         

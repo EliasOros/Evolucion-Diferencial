@@ -36,7 +36,7 @@ class Vista:
         self.spinbox_label1 = tk.Spinbox(self.root, values=opciones_poblacion, state="disabled")
         self.spinbox_label1.grid(row=1, column=1, padx=10, pady=10)
 
-        self.button_label1 = tk.Button(self.root, text="Calcular", command=self.controlador_crear_generaciones, state="disabled")
+        self.button_label1 = tk.Button(self.root, text="Calcular", command=self.controlador.iniciarGeneraciones, state="disabled")
         self.button_label1.grid(row=1, column=2)
         
    def crear_boton_reinicio(self):
