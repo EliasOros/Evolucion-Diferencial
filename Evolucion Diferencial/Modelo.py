@@ -2,150 +2,151 @@
 ###############################################################################################
 ###############################           ATRIBUTOS          ##################################
 import random
-
-gen=[]
-pesoIn = []
-nueva_gen = []
-
-#random
-def generarRandom(PI, obj):
-    nlista = []
-    tamano=len(PI)
-    for i in range(tamano):
-        if i != obj:
-            nlista.append(PI[i])
-    return nlista
-
-#Metodo llenado de poblacion inicial
-
-def poblacionInicial(inicial):
-    global pesoIn
-    valorIn = int(inicial)
+class Modelo:
     
-    PI = [ [    [] for _ in range(3)]    for _ in range(valorIn)]
-       
-    val = 0
-    
-    for i in range(len(PI)):
-        for j in range(3):
-            val = random.randint(-10, 10)
-            PI[i][j]= val
-    
-    print ("Este es la ponblacion inicial: ",PI)
-    for a in PI:
-        p = peso(a)
-        pesoIn.append(p)
+    gen=[]
+    pesoIn = []
+    nueva_gen = []
 
-    print ("Este es el peso inicial: ",pesoIn,"\n")
-    return PI
+    #random
+    def generarRandom(PI, obj):
+        nlista = []
+        tamano=len(PI)
+        for i in range(tamano):
+            if i != obj:
+                nlista.append(PI[i])
+        return nlista
 
-#Calculo de Wij = V1 + mu (v2 - v3)
-def calculoWij(list):
-    w=[]
-    op=[]
-    
-    for i in range(3):
-        #print(ord_lista[i][0])
-        for j in range(len(list)):
-            op.append(list[j][i])
+    #Metodo llenado de poblacion inicial
 
-        w.append(op[0] + ((1/2)*(op[1] - op[2])))
-        op=[]
-    return w
-
-#Metodo para calcular el peso
-def peso(w):
-    x = w[0]
-    y = w[1]
-    z = w[2]
-    
-    p = pow(x,2) + pow(y,3) + pow(z,4)
-    return p
-       
-#Metodo para calcular si es minimo
-def minimo(w,obj,PI):
-    
-    pesoGen = peso(w)
-    pesoCom = pesoIn[obj]
-    print("Este es w: ",w)
-    print("Esto es el peso inicial: ",pesoCom)
-    print("Esto es el peso a comparar: ",pesoGen)
-    print("El objetivo: ", obj,"\n")
-    if(pesoGen < pesoCom):
-        pesoIn[obj] = pesoGen
-        nueva_gen.append(w)
-        print("Cambiamos por w \n")
-    else:
-        nueva_gen.append(PI[obj])
-        print("Dejamos el anterior \n")
-    
-    
-#Metodo para calcular si es maximo
-
-def maximo (w,obj,PI):
-    pesoGen = peso(w)
-    pesoCom = pesoIn[obj]
-    print("Este es w: ",w)
-    print("Esto es el peso inicial: ",pesoCom)
-    print("Esto es el peso a comparar: ",pesoGen)
-    print("El objetivo: ", obj,"\n")
-    if(pesoGen > pesoCom):
-        pesoIn[obj] = pesoGen
-        nueva_gen.append(w)
-        print("Cambiamos por w \n")
-    else:
-        nueva_gen.append(PI[obj])
-        print("Dejamos el anterior \n")
+    def poblacionInicial(self,inicial):
+        global pesoIn
+        valorIn = int(inicial)
         
-#Metodo llenado de generacion
-def poblacionGeneracion(PI, obj):
-    
-    nlista = generarRandom(PI, obj)
-    gen = random.sample(range(0,len(nlista)),3)
-    
-    ord_lista = []
+        PI = [ [    [] for _ in range(3)]    for _ in range(valorIn)]
+        
+        val = 0
+        
+        for i in range(len(PI)):
+            for j in range(3):
+                val = random.randint(-10, 10)
+                PI[i][j]= val
+        
+        print ("Este es la ponblacion inicial: ",PI)
+        for a in PI:
+            p = self.peso(a)
+            pesoIn.append(p)
 
-    for i in range(len(gen)):
-        x = gen[i]
-        ord_lista.append(nlista[x])
-    
-    w = calculoWij(ord_lista)
-    
-    maximo(w,obj,PI)
-    
+        print ("Este es el peso inicial: ",pesoIn,"\n")
+        return PI
 
-def calculoWij(list):
-    w=[]
-    op=[]
-    
-    for i in range(3):
-        #print(ord_lista[i][0])
-        for j in range(len(list)):
-            op.append(list[j][i])
-
-        w.append(op[0] + ((1/2)*(op[1] - op[2])))
+    #Calculo de Wij = V1 + mu (v2 - v3)
+    def calculoWij(list):
+        w=[]
         op=[]
-    return w
-    
-    
+        
+        for i in range(3):
+            #print(ord_lista[i][0])
+            for j in range(len(list)):
+                op.append(list[j][i])
+
+            w.append(op[0] + ((1/2)*(op[1] - op[2])))
+            op=[]
+        return w
+
+    #Metodo para calcular el peso
+    def peso(w):
+        x = w[0]
+        y = w[1]
+        z = w[2]
+        
+        p = pow(x,2) + pow(y,3) + pow(z,4)
+        return p
+        
+    #Metodo para calcular si es minimo
+    def minimo(self,w,obj,PI):
+        
+        pesoGen = self.peso(w)
+        pesoCom = pesoIn[obj]
+        print("Este es w: ",w)
+        print("Esto es el peso inicial: ",pesoCom)
+        print("Esto es el peso a comparar: ",pesoGen)
+        print("El objetivo: ", obj,"\n")
+        if(pesoGen < pesoCom):
+            pesoIn[obj] = pesoGen
+            self.nueva_gen.append(w)
+            print("Cambiamos por w \n")
+        else:
+            self.nueva_gen.append(PI[obj])
+            print("Dejamos el anterior \n")
+        
+        
+    #Metodo para calcular si es maximo
+
+    def maximo (self,w,obj,PI):
+        pesoGen = self.peso(w)
+        pesoCom = pesoIn[obj]
+        print("Este es w: ",w)
+        print("Esto es el peso inicial: ",pesoCom)
+        print("Esto es el peso a comparar: ",pesoGen)
+        print("El objetivo: ", obj,"\n")
+        if(pesoGen > pesoCom):
+            pesoIn[obj] = pesoGen
+            self.nueva_gen.append(w)
+            print("Cambiamos por w \n")
+        else:
+            self.nueva_gen.append(PI[obj])
+            print("Dejamos el anterior \n")
+            
+    #Metodo llenado de generacion
+    def poblacionGeneracion(self,PI, obj):
+        
+        nlista = self.generarRandom(PI, obj)
+        gen = random.sample(range(0,len(nlista)),3)
+        
+        ord_lista = []
+
+        for i in range(len(gen)):
+            x = gen[i]
+            ord_lista.append(nlista[x])
+        
+        w = self.calculoWij(ord_lista)
+        
+        self.maximo(w,obj,PI)
+        
+
+    def calculoWij(list):
+        w=[]
+        op=[]
+        
+        for i in range(3):
+            #print(ord_lista[i][0])
+            for j in range(len(list)):
+                op.append(list[j][i])
+
+            w.append(op[0] + ((1/2)*(op[1] - op[2])))
+            op=[]
+        return w
+        
+        
 
 
 
 
-#Esto solo es para que funcione en consola
-"""
-def main():
-    global nueva_gen
+    #Esto solo es para que funcione en consola
+    """
+    def main():
+        global nueva_gen
 
-    PI = poblacionInicial(4)
+        PI = poblacionInicial(4)
 
-    for i in range(2):
-        for j in range(len(PI)):
-            poblacionGeneracion(PI, j)     
-        print ("Esta es la ",i+1,"° generacion: ",nueva_gen,". Peso de esta generacion: ",pesoIn)
-        nueva_gen = []
+        for i in range(2):
+            for j in range(len(PI)):
+                poblacionGeneracion(PI, j)     
+            print ("Esta es la ",i+1,"° generacion: ",nueva_gen,". Peso de esta generacion: ",pesoIn)
+            nueva_gen = []
 
-    
-if __name__ == "__main__":
-    main()
-"""
+        
+    if __name__ == "__main__":
+        main()
+    """
