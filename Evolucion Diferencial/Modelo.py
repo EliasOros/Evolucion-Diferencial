@@ -1,12 +1,17 @@
 
 
 import random
+import threading
 class Modelo:
     
     gen=[]
     pesoIn = []
-    nueva_gen = []
+    #pesoIn_max = []
+    #pesoIn_min = []
+    nueva_gen_max = []
+    nueva_gen_min = []
     
+    mensajeMin = ""
     mensajeMax =""
     mensajeIni =""
 
@@ -71,43 +76,42 @@ class Modelo:
 
             w.append(op[0] + ((1/2)*(op[1] - op[2])))
             op=[]
-        return w
-
-    
+        return w 
         
-    #Metodo para calcular si es minimo
     def minimo (self,ord_lista,w,obj,PI):
         
         pesoGen = self.peso(w)
         pesoCom = self.pesoIn[obj]
         
-        print("\tDonde:")
+        self.mensajeMin += ("\n\t\tDonde:")
         
         for i in range(len(ord_lista)) :
             
-            print("\t\tLa v",i+1, "es:", ord_lista[i])
-        print("") 
+            self.mensajeMin += f"\n\t\t\tLa v {i+1}  es: {ord_lista[i]}"
+        self.mensajeMin +=("") 
                 
         var = ["x","y","z"]
         
-        print ("\tEl vector W esta conformado por:")
+        self.mensajeMin += ("\n\n\t\tEl vector W esta conformado por:")
         
         for i in range(len(w)):
             
-            print("\t\tLa w",var[i],"es:",w[i])
+            self.mensajeMin += f"\n\t\t\tLa w {var[i]} es: {w[i]}"
             
         #print("Este es w: ",w)
-        print("")
-        print("\tEste es el peso del objetivo: ",pesoCom)
-        print("\tEsto es el peso del vector W: ",pesoGen)
-        print("")
+        self.mensajeMin +=("")
+        self.mensajeMin += f"\n\n\t\tEste es el peso del objetivo: {pesoCom}\n"
+        self.mensajeMin += f"\t\tEsto es el peso del vector W: {pesoGen}\n"
+
+        self.mensajeMin +=("")
         if(pesoGen < pesoCom):
             self.pesoIn[obj] = pesoGen
-            self.nueva_gen.append(w)
-            print("\tCambiamos  el objetivo:", PI[obj], "por el vector W:", w , "\n")
+            self.nueva_gen_max.append(w)
+            self.mensajeMin += f"\n\t\tCambiamos el objetivo: {PI[obj]} \n\t\tpor el vector W: {w}\n"
+
         else:
-            self.nueva_gen.append(PI[obj])
-            print("\tNo intercambiamo el objetivo por ningun vector W \n")
+            self.nueva_gen_max.append(PI[obj])
+            self.mensajeMin +=("\n\t\tNo intercambiamo el objetivo por ningun vector W \n")
         
         
     #Metodo para calcular si es maximo
@@ -117,35 +121,37 @@ class Modelo:
         pesoGen = self.peso(w)
         pesoCom = self.pesoIn[obj]
         
-        self.mensajeMax += ("\tDonde:")
+        self.mensajeMax += ("\n\t\tDonde:")
         
         for i in range(len(ord_lista)) :
             
-            self.mensajeMax += f"\t\tLa v {i+1}  es: {ord_lista[i]}"
+            self.mensajeMax += f"\n\t\t\tLa v {i+1}  es: {ord_lista[i]}"
         self.mensajeMax +=("") 
                 
         var = ["x","y","z"]
         
-        self.mensajeMax += ("\tEl vector W esta conformado por:")
+        self.mensajeMax += ("\n\n\t\tEl vector W esta conformado por:")
         
         for i in range(len(w)):
             
-            self.mensajeMax += f"\t\tLa w {var[i]} es: {w[i]}"
+            self.mensajeMax += f"\n\t\t\tLa w {var[i]} es: {w[i]}"
             
         #print("Este es w: ",w)
         self.mensajeMax +=("")
-        self.mensajeMax += f"\tEste es el peso del objetivo: {pesoCom}\n"
-        self.mensajeMax += f"\tEsto es el peso del vector W: {pesoGen}\n"
+        self.mensajeMax += f"\n\n\t\tEste es el peso del objetivo: {pesoCom}\n"
+        self.mensajeMax += f"\t\tEsto es el peso del vector W: {pesoGen}\n"
 
         self.mensajeMax +=("")
         if(pesoGen > pesoCom):
             self.pesoIn[obj] = pesoGen
-            self.nueva_gen.append(w)
-            self.mensajeMax += f"\tCambiamos el objetivo: {PI[obj]} por el vector W: {w}\n"
+            self.nueva_gen_max.append(w)
+            self.mensajeMax += f"\n\t\tCambiamos el objetivo: {PI[obj]} \n\t\tpor el vector W: {w}\n"
 
         else:
-            self.nueva_gen.append(PI[obj])
-            self.mensajeMax +=("\tNo intercambiamo el objetivo por ningun vector W \n")
+            self.nueva_gen_max.append(PI[obj])
+            self.mensajeMax +=("\n\t\tNo intercambiamo el objetivo por ningun vector W \n")
+    
+    
             
     #Metodo llenado de generacion
     def poblacionGeneracion(self,PI, obj):
@@ -164,27 +170,14 @@ class Modelo:
         
         w = self.calculoWij(ord_lista)
         
+        thread1 = threading.Thread(target=self.maximo(ord_lista,w,obj,PI))
+        thread2 = threading.Thread(target=self.minimo(ord_lista,w,obj,PI))
         
-        self.maximo(ord_lista,w,obj,PI)
+        thread1.start()
+        thread2.start()
+        
         
     
-        
-
-    def calculoWij(self,list):
-        w=[]
-        op=[]
-        
-        for i in range(3):
-            #print(ord_lista[i][0])
-            for j in range(len(list)):
-                op.append(list[j][i])
-
-            w.append(op[0] + ((1/2)*(op[1] - op[2])))
-            op=[]
-        
-        return w
-        
-        
 
 
 
