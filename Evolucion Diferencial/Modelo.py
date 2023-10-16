@@ -6,6 +6,9 @@ class Modelo:
     gen=[]
     pesoIn = []
     nueva_gen = []
+    
+    mensajeMax =""
+    mensajeIni =""
 
     #random
     def generarRandom(self,PI, obj):
@@ -17,7 +20,7 @@ class Modelo:
         return nlista
 
     #Metodo para calcular el peso
-   
+    #Metodo checado y correcto    
     def peso(self,w):
         
         x = w[0]
@@ -44,7 +47,7 @@ class Modelo:
                 val = random.randint(-10, 10)
                 PI[i][j]= val
         
-        print ("Este es la ponblacion inicial: ",PI)
+        self.mensajeIni += f"Esta es la ponblacion inicial: {PI}"
         
         for a in PI:
             
@@ -52,7 +55,7 @@ class Modelo:
             
             self.pesoIn.append(p)
 
-        print ("Este es el peso inicial: ",self.pesoIn,"\n")
+        self.mensajeIni += f"\nEste es el peso inicial: {self.pesoIn}\n"
         
         return PI
 
@@ -73,44 +76,84 @@ class Modelo:
     
         
     #Metodo para calcular si es minimo
-    def minimo(self,w,obj,PI):
+    def minimo (self,ord_lista,w,obj,PI):
         
         pesoGen = self.peso(w)
         pesoCom = self.pesoIn[obj]
-        print("Este es w: ",w)
-        print("Esto es el peso inicial: ",pesoCom)
-        print("Esto es el peso a comparar: ",pesoGen)
-        print("El objetivo: ", obj,"\n")
+        
+        print("\tDonde:")
+        
+        for i in range(len(ord_lista)) :
+            
+            print("\t\tLa v",i+1, "es:", ord_lista[i])
+        print("") 
+                
+        var = ["x","y","z"]
+        
+        print ("\tEl vector W esta conformado por:")
+        
+        for i in range(len(w)):
+            
+            print("\t\tLa w",var[i],"es:",w[i])
+            
+        #print("Este es w: ",w)
+        print("")
+        print("\tEste es el peso del objetivo: ",pesoCom)
+        print("\tEsto es el peso del vector W: ",pesoGen)
+        print("")
         if(pesoGen < pesoCom):
             self.pesoIn[obj] = pesoGen
             self.nueva_gen.append(w)
-            print("Cambiamos por w \n")
+            print("\tCambiamos  el objetivo:", PI[obj], "por el vector W:", w , "\n")
         else:
             self.nueva_gen.append(PI[obj])
-            print("Dejamos el anterior \n")
+            print("\tNo intercambiamo el objetivo por ningun vector W \n")
         
         
     #Metodo para calcular si es maximo
 
-    def maximo (self,w,obj,PI):
+    def maximo (self,ord_lista,w,obj,PI):
+        
         pesoGen = self.peso(w)
         pesoCom = self.pesoIn[obj]
-        print("Este es w: ",w)
-        print("Esto es el peso inicial: ",pesoCom)
-        print("Esto es el peso a comparar: ",pesoGen)
-        print("El objetivo: ", obj,"\n")
+        
+        self.mensajeMax += ("\tDonde:")
+        
+        for i in range(len(ord_lista)) :
+            
+            self.mensajeMax += f"\t\tLa v {i+1}  es: {ord_lista[i]}"
+        self.mensajeMax +=("") 
+                
+        var = ["x","y","z"]
+        
+        self.mensajeMax += ("\tEl vector W esta conformado por:")
+        
+        for i in range(len(w)):
+            
+            self.mensajeMax += f"\t\tLa w {var[i]} es: {w[i]}"
+            
+        #print("Este es w: ",w)
+        self.mensajeMax +=("")
+        self.mensajeMax += f"\tEste es el peso del objetivo: {pesoCom}\n"
+        self.mensajeMax += f"\tEsto es el peso del vector W: {pesoGen}\n"
+
+        self.mensajeMax +=("")
         if(pesoGen > pesoCom):
             self.pesoIn[obj] = pesoGen
             self.nueva_gen.append(w)
-            print("Cambiamos por w \n")
+            self.mensajeMax += f"\tCambiamos el objetivo: {PI[obj]} por el vector W: {w}\n"
+
         else:
             self.nueva_gen.append(PI[obj])
-            print("Dejamos el anterior \n")
+            self.mensajeMax +=("\tNo intercambiamo el objetivo por ningun vector W \n")
             
     #Metodo llenado de generacion
     def poblacionGeneracion(self,PI, obj):
         
+        #elimina el obj de la lista para pdoer hacer la lista simulada de v1,v2,v3
         nlista = self.generarRandom(PI, obj)
+        
+        #Obtiene una nueva lista ordenada aletoriamnete y diferente a la original simulnado la eleccion de v1,v2,v3
         gen = random.sample(range(0,len(nlista)),3)
         
         ord_lista = []
@@ -121,7 +164,10 @@ class Modelo:
         
         w = self.calculoWij(ord_lista)
         
-        self.maximo(w,obj,PI)
+        
+        self.maximo(ord_lista,w,obj,PI)
+        
+    
         
 
     def calculoWij(self,list):
@@ -135,6 +181,7 @@ class Modelo:
 
             w.append(op[0] + ((1/2)*(op[1] - op[2])))
             op=[]
+        
         return w
         
         

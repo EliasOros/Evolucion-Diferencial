@@ -64,6 +64,7 @@ class Vista:
         return x
 
    def controlador_crear_generaciones(self):
+       
         x = int(self.spinbox_label1.get())
         
         self.button_label1.config(state="disabled")

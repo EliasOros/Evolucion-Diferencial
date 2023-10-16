@@ -4,11 +4,11 @@ from tkinter import scrolledtext
 class VentanaEmergente:
     
     def __init__(self):
-        self.root = tk.Toplevel()
+        self.root = tk.Tk()
         self.root.title("Resultados")
-        self.root.geometry("900x600")
+        self.root.geometry("1300x600")
 
-    def generarventana(self):
+    def generarVentana(self):
         
         
 
@@ -21,7 +21,7 @@ class VentanaEmergente:
         frame1 = tk.Frame(self.root, borderwidth=2, relief="ridge")
         frame1.pack(padx=10, pady=10, side="right")
 
-        self.label = tk.Label(frame, text="Poblacion incial:")
+        self.label = tk.Label(frame,)
         self.label.pack(padx=10, pady=10, side="top")
 
         self.label0 = tk.Label(frame0, text="Minimo")
@@ -31,11 +31,11 @@ class VentanaEmergente:
         self.label1.grid(row=0, column=1, padx=10, pady=10)
 
         # Crear un widget ScrolledText dentro del frame
-        self.scroll_minimo = scrolledtext.ScrolledText(frame0, wrap=tk.WORD, width=50, height=20, state="disabled")
+        self.scroll_minimo = scrolledtext.ScrolledText(frame0, wrap=tk.WORD, width=70, height=20, state="disabled")
         self.scroll_minimo.grid(row=1, column=1, padx=10, pady=10)
 
         # Crear un widget ScrolledText dentro del frame
-        self.scroll_maximo = scrolledtext.ScrolledText(frame1, wrap=tk.WORD, width=50, height=20, state="disabled")
+        self.scroll_maximo = scrolledtext.ScrolledText(frame1, wrap=tk.WORD, width=70, height=20, state="disabled")
         self.scroll_maximo.grid(row=1, column=1, pady=10)
 
         self.labelMinimo = tk.Label(frame0, text="Poblacion final minimo:")
@@ -45,21 +45,31 @@ class VentanaEmergente:
         self.labelMaximo.grid(row=2, column=1, padx=10, pady=10)
 
     def iniciar(self):
+        ventana_emergente = VentanaEmergente()  # Crea una instancia de la clase
+        ventana_emergente.generarVentana()  # Crea y configura la ventana primero
+
+        # Luego, puedes llamar a otros métodos para mostrar contenido en la ventana
+        poblacion_inicial = "Población inicial: [1, 2, 3, 4, 5]"
+        mensaje_minimo = "Resultado mínimo: 42"
+        mensaje_maximo = "Resultado máximo: 100"
+
+        ventana_emergente.imprimirPoblacionInicial(poblacion_inicial)
+        ventana_emergente.imprimir_en_scroll_min(mensaje_minimo)
+        ventana_emergente.imprimir_en_scroll_max(mensaje_maximo)
         self.root.mainloop()
 
-    def imprimirPoblacionInicial(self, poblacion_inicial):
+    def imprimirPoblacionInicial(self,mensajeIni):
         
-        self.label.config(text=poblacion_inicial)
+        self.label.config(text=(mensajeIni))
         
         
     def imprimirPoblacionMinima(poblacionInicial):
         
         print("")
         
-    def imprimirPoblacionMaxima(poblacionInicial):
+    def imprimirPoblacionMaxima(self,mensajeFinMax):
         
-        print("")
-
+        self.labelMaximo.config(text=mensajeFinMax)
 
     def imprimir_en_scroll_min(self, mensaje):
         self.scroll_minimo.config(state=tk.NORMAL)  # Habilitar la edición del widget
@@ -68,15 +78,19 @@ class VentanaEmergente:
         self.scroll_minimo.config(state=tk.DISABLED)  # Deshabilitar la edición del widget después de imprimir
 
     def imprimir_en_scroll_max(self, mensaje):
+        
         self.scroll_maximo.config(state=tk.NORMAL)  # Habilitar la edición del widget
         self.scroll_maximo.insert(tk.END, mensaje)  # Insertar el mensaje al final del widget
         self.scroll_maximo.see(tk.END)  # Hacer que el widget muestre automáticamente el contenido nuevo
         self.scroll_maximo.config(state=tk.DISABLED)  # Deshabilitar la edición del widget después de imprimir
 
-'''        
-if __name__ == "__main__":
+'''if __name__ == "__main__":
+    ventana_emergente = VentanaEmergente() 
+    ventana_emergente.iniciar()'''
+     
+'''if __name__ == "__main__":
     ventana_emergente = VentanaEmergente()  # Crea una instancia de la clase
-    ventana_emergente.generarventana()  # Crea y configura la ventana primero
+    ventana_emergente.generarVentana()  # Crea y configura la ventana primero
 
     # Luego, puedes llamar a otros métodos para mostrar contenido en la ventana
     poblacion_inicial = "Población inicial: [1, 2, 3, 4, 5]"

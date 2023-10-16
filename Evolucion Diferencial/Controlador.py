@@ -16,6 +16,7 @@ class Controlador:
         self.PI = None
         
         
+        
 
     def iniciar(self):
      
@@ -41,18 +42,40 @@ class Controlador:
       
         
     def iniciarGeneraciones(self):
+       
+       
         valorgen = int(self.vista.controlador_crear_generaciones())
-        generaciones_str = ""  # Crear una cadena vacía para almacenar las generaciones
+        mensajeFinmax = ""  # Crear una cadena vacía para almacenar las generaciones
         PI = self.llamarCreacion()  # Obtén la población inicial
+        
         for i in range(valorgen):
+            
+            
+            self.modelo.mensajeMax += f"Para la generacion {i+1}\n"
+
+            self.modelo.nueva_gen = []
+            
             for j in range(len(PI)):
+                
+                self.modelo.mensajeMax += f"Para el objetivo: {PI[j]} \n"
                 self.modelo.poblacionGeneracion(PI, j)
-            generaciones_str += f"Esta es la {i+1}° generación: {self.modelo.nueva_gen}. Peso de esta generación: {self.modelo.pesoIn}\n"
-        return generaciones_str
-
-
-
-
+        
+            PI = self.modelo.nueva_gen
+            print ("La generacion", i+1,"queda de la siguiente forma", self.modelo.nueva_gen,"con peso", self.modelo.pesoIn ,"\n")
+            mensajeFinmax += f"La {i+1}° generación es: {self.modelo.nueva_gen}.  \n y el peso de esta generación: {self.modelo.pesoIn}\n"
+        
+            
+         
+        ventanaEmergente = VentanaEmergente()
+        ventanaEmergente.generarVentana()  
+        ventanaEmergente.imprimirPoblacionInicial(self.modelo.mensajeIni)
+        ventanaEmergente.imprimir_en_scroll_max(self.modelo.mensajeMax) 
+        ventanaEmergente.imprimirPoblacionMaxima(mensajeFinmax)
+        
+        
+        
+    
+  
 if __name__ == "__main__":
     modelo = Modelo()
     controlador = Controlador(modelo, None)  # Puedes dejar None como argumento temporalmente
