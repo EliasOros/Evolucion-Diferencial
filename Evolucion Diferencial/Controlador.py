@@ -1,5 +1,6 @@
 
 
+import threading
 from Vista import Vista
 from Modelo import Modelo
 from VentanaEmergente import VentanaEmergente
@@ -31,6 +32,8 @@ class Controlador:
 
         return self.PI
      
+     
+    
     def iniciarGeneraciones(self):
         
         valorgen = int(self.vista.controlador_crear_generaciones())
@@ -38,25 +41,42 @@ class Controlador:
         mensajeFinmin = ""  # Crear una cadena vacía para almacenar las generaciones
         PI = self.llamarCreacion()  # Obtén la población inicial
         
+        PI_max = PI
+        PI_min = PI
+        
         for i in range(valorgen):
+            
             
             
             self.modelo.mensajeMax += f"\nPara la generacion {i+1}\n"
             self.modelo.mensajeMin += f"\nPara la generacion {i+1}\n"
-
+            
             self.modelo.nueva_gen_min = []
             self.modelo.nueva_gen_max = []
+         
+            thread1 = threading.Thread(target=self.generacionMax, args=(PI_max,))
+            thread2 = threading.Thread(target=self.generacionMin, args=(PI_min,))
+            thread1.start()
+            thread2.start()
+            thread1.join()  # Espera a que thread1 termine
+            thread2.join()  # Espera a que thread2 termine
+
+            print ("PI:",PI)
+            print ("PI-MAX",PI_max)
             
-            for j in range(len(PI)):
-                
-                self.modelo.mensajeMax += f"\n\tPara el objetivo: {PI[j]} \n"
-                self.modelo.mensajeMin += f"\n\tPara el objetivo: {PI[j]} \n"
-                self.modelo.poblacionGeneracion(PI, j)
-        
-            #PI = self.modelo.nueva_gen
+            # Actualizar PI con las nuevas generaciones correspondientes
+            PI_max = self.modelo.nueva_gen_max
+            PI_min = self.modelo.nueva_gen_min
+            
+            print ("Pi-Max2",PI_max)
+    
             #print ("La generacion", i+1,"queda de la siguiente forma", self.modelo.nueva_gen,"con peso", self.modelo.pesoIn ,"\n")
             mensajeFinmax += f"La {i+1}° generación es: {self.modelo.nueva_gen_max}.  \n y el peso de esta generación: {self.modelo.pesoIn}\n"
             mensajeFinmin += f"La {i+1}° generación es: {self.modelo.nueva_gen_min}.  \n y el peso de esta generación: {self.modelo.pesoIn}\n"
+            
+            print (mensajeFinmax)
+            print(mensajeFinmin)
+            
             
          
         ventanaEmergente = VentanaEmergente()
@@ -67,6 +87,28 @@ class Controlador:
         ventanaEmergente.imprimirPoblacionMaxima(mensajeFinmax)
         ventanaEmergente.imprimirPoblacionMinima(mensajeFinmin)
         
+    def generacionMax(self, PI_max):
+        
+                 
+        for j in range(len(PI_max)):
+              
+                
+            self.modelo.mensajeMax += f"\n\tPara el objetivo: {PI_max[j]} \n"
+                
+            self.modelo.poblacionGeneracionMax(PI_max, j)
+            
+        
+        
+    def generacionMin(self, PI_min):
+        
+      
+        for j in range(len(PI_min)):
+                
+                
+            self.modelo.mensajeMin += f"\n\tPara el objetivo: {PI_min[j]} \n"
+            self.modelo.poblacionGeneracionMin(PI_min, j)
+                
+     
         
         
     

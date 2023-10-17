@@ -78,7 +78,7 @@ class Modelo:
             op=[]
         return w 
         
-    def minimo (self,ord_lista,w,obj,PI):
+    def minimo (self,ord_lista,w,obj,PI_min):
         
         pesoGen = self.peso(w)
         pesoCom = self.pesoIn[obj]
@@ -106,17 +106,17 @@ class Modelo:
         self.mensajeMin +=("")
         if(pesoGen < pesoCom):
             self.pesoIn[obj] = pesoGen
-            self.nueva_gen_max.append(w)
-            self.mensajeMin += f"\n\t\tCambiamos el objetivo: {PI[obj]} \n\t\tpor el vector W: {w}\n"
+            self.nueva_gen_min.append(w)
+            self.mensajeMin += f"\n\t\tCambiamos el objetivo: {PI_min[obj]} \n\t\tpor el vector W: {w}\n"
 
         else:
-            self.nueva_gen_max.append(PI[obj])
+            self.nueva_gen_min.append(PI_min[obj])
             self.mensajeMin +=("\n\t\tNo intercambiamo el objetivo por ningun vector W \n")
         
         
     #Metodo para calcular si es maximo
 
-    def maximo (self,ord_lista,w,obj,PI):
+    def maximo (self,ord_lista,w,obj,PI_max):
         
         pesoGen = self.peso(w)
         pesoCom = self.pesoIn[obj]
@@ -145,19 +145,19 @@ class Modelo:
         if(pesoGen > pesoCom):
             self.pesoIn[obj] = pesoGen
             self.nueva_gen_max.append(w)
-            self.mensajeMax += f"\n\t\tCambiamos el objetivo: {PI[obj]} \n\t\tpor el vector W: {w}\n"
+            self.mensajeMax += f"\n\t\tCambiamos el objetivo: {PI_max[obj]} \n\t\tpor el vector W: {w}\n"
 
         else:
-            self.nueva_gen_max.append(PI[obj])
+            self.nueva_gen_max.append(PI_max[obj])
             self.mensajeMax +=("\n\t\tNo intercambiamo el objetivo por ningun vector W \n")
     
     
             
     #Metodo llenado de generacion
-    def poblacionGeneracion(self,PI, obj):
+    def poblacionGeneracionMax(self,PI_max, obj):
         
         #elimina el obj de la lista para pdoer hacer la lista simulada de v1,v2,v3
-        nlista = self.generarRandom(PI, obj)
+        nlista = self.generarRandom(PI_max, obj)
         
         #Obtiene una nueva lista ordenada aletoriamnete y diferente a la original simulnado la eleccion de v1,v2,v3
         gen = random.sample(range(0,len(nlista)),3)
@@ -170,11 +170,26 @@ class Modelo:
         
         w = self.calculoWij(ord_lista)
         
-        thread1 = threading.Thread(target=self.maximo(ord_lista,w,obj,PI))
-        thread2 = threading.Thread(target=self.minimo(ord_lista,w,obj,PI))
+        self.maximo(ord_lista,w,obj,PI_max)
+    
+    #Metodo llenado de generacion
+    def poblacionGeneracionMin(self,PI_min, obj):
         
-        thread1.start()
-        thread2.start()
+        #elimina el obj de la lista para pdoer hacer la lista simulada de v1,v2,v3
+        nlista = self.generarRandom(PI_min, obj)
+        
+        #Obtiene una nueva lista ordenada aletoriamnete y diferente a la original simulnado la eleccion de v1,v2,v3
+        gen = random.sample(range(0,len(nlista)),3)
+        
+        ord_lista = []
+
+        for i in range(len(gen)):
+            x = gen[i]
+            ord_lista.append(nlista[x])
+        
+        w = self.calculoWij(ord_lista)
+        
+        self.minimo(ord_lista,w,obj,PI_min)
         
         
     

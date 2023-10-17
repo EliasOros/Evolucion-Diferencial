@@ -63,9 +63,9 @@ class VentanaEmergente:
         self.label.config(text=(mensajeIni))
         
         
-    def imprimirPoblacionMinima(poblacionInicial):
+    def imprimirPoblacionMinima(self,mensajeFinMin):
         
-        print("")
+        self.labelMinimo.config(text=mensajeFinMin)
         
     def imprimirPoblacionMaxima(self,mensajeFinMax):
         
