@@ -54,16 +54,28 @@ class Modelo:
         
         self.mensajeIni += f"Esta es la ponblacion inicial: {PI}"
         
-        for a in PI:
-            
-            p = self.peso(a)
-            
-            self.pesoIn.append(p)
-
+        
+        self.pesoIn = self.obtencionpeso(PI)
+        
         self.mensajeIni += f"\nEste es el peso inicial: {self.pesoIn}\n"
         
         return PI
 
+
+    def obtencionpeso(self,PI):
+        
+        peso = []
+        
+        for a in PI:
+            
+            p = self.peso(a)
+            
+            peso.append(p)
+        
+        return peso
+            
+        
+        
     #Calculo de Wij = V1 + mu (v2 - v3)
     def calculoWij(self,list):
         w=[]

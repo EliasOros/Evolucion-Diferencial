@@ -71,8 +71,8 @@ class Controlador:
             print ("Pi-Max2",PI_max)
     
             #print ("La generacion", i+1,"queda de la siguiente forma", self.modelo.nueva_gen,"con peso", self.modelo.pesoIn ,"\n")
-            mensajeFinmax += f"La {i+1}° generación es: {self.modelo.nueva_gen_max}.  \n y el peso de esta generación: {self.modelo.pesoIn}\n"
-            mensajeFinmin += f"La {i+1}° generación es: {self.modelo.nueva_gen_min}.  \n y el peso de esta generación: {self.modelo.pesoIn}\n"
+            mensajeFinmax += f"La {i+1}° generación es: {self.modelo.nueva_gen_max}.  \n\t El peso de la generación es: {self.modelo.obtencionpeso(PI_max)}\n\n"
+            mensajeFinmin += f"La {i+1}° generación es: {self.modelo.nueva_gen_min}.  \n\t El peso de la generación es: {self.modelo.obtencionpeso(PI_min)}\n\n"
             
             print (mensajeFinmax)
             print(mensajeFinmin)
@@ -107,12 +107,7 @@ class Controlador:
                 
             self.modelo.mensajeMin += f"\n\tPara el objetivo: {PI_min[j]} \n"
             self.modelo.poblacionGeneracionMin(PI_min, j)
-                
-     
-        
-        
-    
-  
+                  
 if __name__ == "__main__":
     modelo = Modelo()
     controlador = Controlador(modelo, None)  # Puedes dejar None como argumento temporalmente
