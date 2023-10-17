@@ -47,20 +47,22 @@ class Vista:
         self.button_label1.grid(row=1, column=2)
         
    def crear_boton_reinicio(self):
-       self.button_reinicio = tk.Button(self.root,text =("Reiniciar"), command = self.reinciar, state="disabled",bg="#15e295",activebackground= "#00ff7f")
+       self.button_reinicio = tk.Button(self.root,text =("Reiniciar"), command = self.controlador.reiniciar, state="disabled",bg="#15e295",activebackground= "#00ff7f")
        self.button_reinicio.grid(row = 2, column=1) 
 
    
         
-   def reinciar(self):
+   def reiniciar(self):
+        
        self.button_reinicio.config(state="disabled")
        self.button_label0.config(state="active")
-       self.button_label1.config(state="active")
+       self.button_label1.config(state="disabled")
        self.spinbox_label0.config(state="normal")
        
        
 
    def controlador_crear_poblacion(self):
+        
         x = int(self.spinbox_label0.get())
         
         self.button_label0.config(state="disabled")

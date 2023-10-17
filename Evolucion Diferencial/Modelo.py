@@ -4,7 +4,7 @@ import random
 import threading
 class Modelo:
     
-    gen=[]
+    #gen=[]
     pesoIn = []
     #pesoIn_max = []
     #pesoIn_min = []

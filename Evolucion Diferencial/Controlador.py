@@ -10,6 +10,8 @@ from VentanaEmergente import VentanaEmergente
 class Controlador:
    
     PI = []
+    mensajeFinmax = ""  # Crear una cadena vacía para almacenar las generaciones
+    mensajeFinmin = ""  # Crear una cadena vacía para almacenar las generaciones
    
     def __init__(self,modelo,vista):
         self.modelo = modelo
@@ -37,8 +39,7 @@ class Controlador:
     def iniciarGeneraciones(self):
         
         valorgen = int(self.vista.controlador_crear_generaciones())
-        mensajeFinmax = ""  # Crear una cadena vacía para almacenar las generaciones
-        mensajeFinmin = ""  # Crear una cadena vacía para almacenar las generaciones
+        
         PI = self.llamarCreacion()  # Obtén la población inicial
         
         PI_max = PI
@@ -71,11 +72,11 @@ class Controlador:
             print ("Pi-Max2",PI_max)
     
             #print ("La generacion", i+1,"queda de la siguiente forma", self.modelo.nueva_gen,"con peso", self.modelo.pesoIn ,"\n")
-            mensajeFinmax += f"La {i+1}° generación es: {self.modelo.nueva_gen_max}.  \n\t El peso de la generación es: {self.modelo.obtencionpeso(PI_max)}\n\n"
-            mensajeFinmin += f"La {i+1}° generación es: {self.modelo.nueva_gen_min}.  \n\t El peso de la generación es: {self.modelo.obtencionpeso(PI_min)}\n\n"
+            self.mensajeFinmax += f"La {i+1}° generación es: {self.modelo.nueva_gen_max}.  \n\t El peso de la generación es: {self.modelo.obtencionpeso(PI_max)}\n\n"
+            self.mensajeFinmin += f"La {i+1}° generación es: {self.modelo.nueva_gen_min}.  \n\t El peso de la generación es: {self.modelo.obtencionpeso(PI_min)}\n\n"
             
-            print (mensajeFinmax)
-            print(mensajeFinmin)
+            print (self.mensajeFinmax)
+            print(self.mensajeFinmin)
             
             
          
@@ -84,8 +85,8 @@ class Controlador:
         ventanaEmergente.imprimirPoblacionInicial(self.modelo.mensajeIni)
         ventanaEmergente.imprimir_en_scroll_max(self.modelo.mensajeMax) 
         ventanaEmergente.imprimir_en_scroll_min(self.modelo.mensajeMin) 
-        ventanaEmergente.imprimirPoblacionMaxima(mensajeFinmax)
-        ventanaEmergente.imprimirPoblacionMinima(mensajeFinmin)
+        ventanaEmergente.imprimirPoblacionMaxima(self.mensajeFinmax)
+        ventanaEmergente.imprimirPoblacionMinima(self.mensajeFinmin)
         
     def generacionMax(self, PI_max):
         
@@ -95,9 +96,7 @@ class Controlador:
                 
             self.modelo.mensajeMax += f"\n\tPara el objetivo: {PI_max[j]} \n"
                 
-            self.modelo.poblacionGeneracionMax(PI_max, j)
-            
-        
+            self.modelo.poblacionGeneracionMax(PI_max, j)   
         
     def generacionMin(self, PI_min):
         
@@ -107,6 +106,22 @@ class Controlador:
                 
             self.modelo.mensajeMin += f"\n\tPara el objetivo: {PI_min[j]} \n"
             self.modelo.poblacionGeneracionMin(PI_min, j)
+            
+    def reiniciar(self):
+        
+        self.vista.reiniciar()
+        self.PI = None
+        self.mensajeFinmax = ""
+        self.mensajeFinmin = ""
+        self.modelo.mensajeMin = ""
+        self.modelo.mensajeMax = ""
+        self.modelo.mensajeIni = ""
+        self.modelo.pesoIn = []
+        self.modelo.nueva_gen_max = []
+        self.modelo.nueva_gen_min = []
+        self.modelo.gen = []
+        
+        
                   
 if __name__ == "__main__":
     modelo = Modelo()
